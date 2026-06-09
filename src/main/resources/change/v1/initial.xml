@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+    <changeSet id="001" author="dev">
+        <createTable tableName="users">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)"/>
+            <column name="weight" type="DECIMAL(5,2)"/>
+            <column name="height" type="DECIMAL(5,2)"/>
+            <column name="age" type="INTEGER"/>
+            <column name="gender" type="VARCHAR(20)"/>
+            <column name="goal" type="VARCHAR(20)"/>
+            <column name="activity_type" type="VARCHAR(20)"/>
+            <column name="daily_calories" type="DECIMAL(7,2)"/>
+            <column name="daily_protein" type="DECIMAL(7,2)"/>
+            <column name="daily_fat" type="DECIMAL(7,2)"/>
+            <column name="daily_carbs" type="DECIMAL(7,2)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002" author="dev">
+        <createTable tableName="activity_profile">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="avg_steps_per_month" type="INTEGER"/>
+            <column name="workouts_per_week" type="INTEGER"/>
+            <column name="workout_duration_hours" type="DECIMAL(3,1)"/>
+            <column name="rest_coefficient" type="INTEGER"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="activity_profile" baseColumnNames="chat_id"
+                referencedTableName="users" referencedColumnNames="chat_id"
+                constraintName="fk_activity_profile_user"/>
+    </changeSet>
+
+    <changeSet id="003" author="dev">
+        <createTable tableName="user_session">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="state" type="VARCHAR(50)"/>
+            <column name="temp_data" type="JSONB"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="user_session" baseColumnNames="chat_id"
+                referencedTableName="users" referencedColumnNames="chat_id"
+                constraintName="fk_user_session_user"/>
+    </changeSet>
+
+    <changeSet id="004" author="dev">
+        <createTable tableName="daily_log">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="log_date" type="DATE" defaultValueComputed="CURRENT_DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_calories" type="DECIMAL(7,2)" defaultValueNumeric="0"/>
+            <column name="total_protein" type="DECIMAL(7,2)" defaultValueNumeric="0"/>
+            <column name="total_fat" type="DECIMAL(7,2)" defaultValueNumeric="0"/>
+            <column name="total_carbs" type="DECIMAL(7,2)" defaultValueNumeric="0"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="daily_log" baseColumnNames="chat_id"
+                referencedTableName="users" referencedColumnNames="chat_id"
+                constraintName="fk_daily_log_user"/>
+        <addUniqueConstraint
+                tableName="daily_log"
+                columnNames="chat_id, log_date"
+                constraintName="uq_daily_log"/>
+    </changeSet>
+
+    <changeSet id="005" author="dev">
+        <createTable tableName="meal_entry">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="log_date" type="DATE" defaultValueComputed="CURRENT_DATE"/>
+            <column name="meal_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dish_name" type="VARCHAR(200)"/>
+            <column name="weight_grams" type="DECIMAL(7,2)"/>
+            <column name="calories_per_100" type="DECIMAL(7,2)"/>
+            <column name="protein_per_100" type="DECIMAL(7,2)"/>
+            <column name="fat_per_100" type="DECIMAL(7,2)"/>
+            <column name="carbs_per_100" type="DECIMAL(7,2)"/>
+            <column name="calories" type="DECIMAL(7,2)"/>
+            <column name="protein" type="DECIMAL(7,2)"/>
+            <column name="fat" type="DECIMAL(7,2)"/>
+            <column name="carbs" type="DECIMAL(7,2)"/>
+            <column name="photo_id" type="VARCHAR(200)"/>
+            <column name="source" type="VARCHAR(20)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="meal_entry" baseColumnNames="chat_id"
+                referencedTableName="users" referencedColumnNames="chat_id"
+                constraintName="fk_meal_entry_user"/>
+    </changeSet>
+
+</databaseChangeLog>
