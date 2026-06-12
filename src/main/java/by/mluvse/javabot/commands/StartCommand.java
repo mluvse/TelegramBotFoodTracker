@@ -34,7 +34,7 @@ public class StartCommand implements Command{
         SendMessage message= SendMessage.builder()
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(keyboardService.mainMenu())
-                .text("Главное меню:")
+                .text("Абярыце дзеянне:")
                 .build();
         publisher.publishEvent(new MessageEvent(this,message));
     }

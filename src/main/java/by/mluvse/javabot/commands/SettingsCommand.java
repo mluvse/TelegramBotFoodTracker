@@ -28,7 +28,7 @@ public class SettingsCommand implements Command{
     public boolean canHandle(Update update) {
         if(!update.hasMessage()||!update.getMessage().hasText()) return false;
         userSessionService.getOrCreate(update.getMessage().getChatId());
-        return update.getMessage().getText().equals("/settings");
+        return update.getMessage().getText().equals("Налады");
     }
 
     @Override
@@ -45,12 +45,12 @@ public class SettingsCommand implements Command{
     private ReplyKeyboard settingsInline() {
         List<InlineKeyboardRow> rows= new ArrayList<>();
         rows.add(new InlineKeyboardRow(InlineKeyboardButton.builder()
-                .text("Обновить профиль")
+                .text("Абнавіць профіль")
                 .callbackData("update_profile")
                 .build()));
         rows.add(new InlineKeyboardRow(InlineKeyboardButton.builder()
-                        .text("Уведомления")
-                        .callbackData("notify")
+                        .text("Паведамлення")
+                        .callbackData("notifications")
                         .build()));
         return new InlineKeyboardMarkup(rows);
     }

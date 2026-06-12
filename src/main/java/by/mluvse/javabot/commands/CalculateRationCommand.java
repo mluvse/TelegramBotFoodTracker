@@ -31,7 +31,7 @@ public class CalculateRationCommand implements Command {
             return false;
         }
         userSessionService.getOrCreate(update.getMessage().getChatId());
-        return update.getMessage().getText().equals("/calculate_ration");
+        return update.getMessage().getText().equals("Днеўны рацыён");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CalculateRationCommand implements Command {
         userSessionService.setState(chatId, UserState.WAITING_GENDER);
         SendMessage sendMessage= SendMessage.builder()
                 .chatId(chatId)
-                .text("Выберите пол:")
+                .text("Абярыце пол:")
                 .replyMarkup(dailyRationInline())
                 .build();
 
@@ -51,11 +51,11 @@ public class CalculateRationCommand implements Command {
     private ReplyKeyboard dailyRationInline() {
         List<InlineKeyboardRow> rows= new ArrayList<>();
         rows.add(new InlineKeyboardRow(InlineKeyboardButton.builder()
-                .text("Женский")
+                .text("Жаночы")
                 .callbackData("gender:female")
                 .build(),
                 InlineKeyboardButton.builder()
-                .text("Мужской")
+                .text("Мужскі")
                 .callbackData("gender:male")
                 .build()));
         return InlineKeyboardMarkup.builder()

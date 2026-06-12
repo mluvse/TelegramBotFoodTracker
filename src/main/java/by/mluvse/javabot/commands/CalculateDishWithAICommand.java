@@ -27,7 +27,7 @@ public class CalculateDishWithAICommand implements Command {
         if(!update.hasMessage()||!update.getMessage().hasText()){
             return false;
         }
-        return update.getMessage().getText().equals("/calculate_dish");
+        return update.getMessage().getText().equals("Разлік стравы з ШІ");
     }
 
     @Override
@@ -43,15 +43,15 @@ public class CalculateDishWithAICommand implements Command {
 
     private ReplyKeyboard AIInline(){
         InlineKeyboardButton button1= InlineKeyboardButton.builder()
-                .text("Сфотографировать блюдо")
+                .text("Сфатаграфаць страву")
                 .callbackData("photo_ai")
                 .build();
         InlineKeyboardButton button2= InlineKeyboardButton.builder()
-                .text("Ввести вручную")
+                .text("Увесці ўручна")
                 .callbackData("input_ai")
                 .build();
         InlineKeyboardButton button3= InlineKeyboardButton.builder()
-                .text("Открыть сканер")
+                .text("Адкрыць сканер")
                 .callbackData("scanner")
                 .build();
 
